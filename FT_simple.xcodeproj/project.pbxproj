@@ -14,6 +14,7 @@
 		49CC3B21204ADEB70041EE8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49CC3B1F204ADEB60041EE8C /* LaunchScreen.storyboard */; };
 		49CC3B2C204ADEB70041EE8C /* FT_simpleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC3B2B204ADEB70041EE8C /* FT_simpleTests.swift */; };
 		49CC3B37204ADEB70041EE8C /* FT_simpleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC3B36204ADEB70041EE8C /* FT_simpleUITests.swift */; };
+		49CC3B45204ADEFB0041EE8C /* FT_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CC3B44204ADEFB0041EE8C /* FT_model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		49CC3B32204ADEB70041EE8C /* FT_simpleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FT_simpleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CC3B36204ADEB70041EE8C /* FT_simpleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FT_simpleUITests.swift; sourceTree = "<group>"; };
 		49CC3B38204ADEB70041EE8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49CC3B44204ADEFB0041EE8C /* FT_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FT_model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		49CC3B15204ADEB60041EE8C /* FT_simple */ = {
 			isa = PBXGroup;
 			children = (
+				49CC3B44204ADEFB0041EE8C /* FT_model.swift */,
 				49CC3B16204ADEB60041EE8C /* AppDelegate.swift */,
 				49CC3B18204ADEB60041EE8C /* ViewController.swift */,
 				49CC3B1A204ADEB60041EE8C /* Main.storyboard */,
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49CC3B45204ADEFB0041EE8C /* FT_model.swift in Sources */,
 				49CC3B19204ADEB60041EE8C /* ViewController.swift in Sources */,
 				49CC3B17204ADEB60041EE8C /* AppDelegate.swift in Sources */,
 			);
