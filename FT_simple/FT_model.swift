@@ -24,12 +24,12 @@ struct cycle {
 class Fourier {
 func Transform (data:[Double]) -> [cycle] {
     let N_Samples = data.count
-    var frequencies = [cycle]()
+    var cycles = [cycle]()
 
     
     // for every frequency...
     
-    for frequence in 0..<N_Samples {
+    for cycleNumber in 0..<N_Samples {
         var realValue:Double = 0
         var imaginaryValue: Double = 0
         
@@ -37,7 +37,7 @@ func Transform (data:[Double]) -> [cycle] {
         for timeStep in 0..<N_Samples {
             
             // Spin the signal backwards_ at each frequency as radian/s,
-            let rate = -1 * (2*Double.pi) * Double(frequence)
+            let rate = -1 * (2*Double.pi) * Double(cycleNumber)
             
             // How far around the circle have we gone at time= t?
             let time = timeStep/N_Samples
@@ -64,16 +64,16 @@ func Transform (data:[Double]) -> [cycle] {
     realValue /= Double(N_Samples)
     imaginaryValue /= Double(N_Samples)
         
-        frequencies.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
+        cycles.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
         
-        frequencies[frequence].realValue = realValue
-        frequencies[frequence].imaginaryValue = imaginaryValue
-        frequencies[frequence].frequency = Double(frequence)
+        cycles[cycleNumber].realValue = realValue
+        cycles[cycleNumber].imaginaryValue = imaginaryValue
+        cycles[cycleNumber].frequency = Double(cycleNumber)
             
         } // Stop for every frequency
     
     
-    return frequencies
+    return cycles
   }
     
 
