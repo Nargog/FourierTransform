@@ -22,59 +22,60 @@ struct cycle {
 
 
 class Fourier {
-func Transform (data:[Double]) -> [cycle] {
-    let N_Samples = data.count
-    var cycles = [cycle]()
-
     
-    // for every frequency...
+    var timeSignal = [Double]()
     
-    for cycleNumber in 0..<N_Samples {
-        var realValue:Double = 0
-        var imaginaryValue: Double = 0
+    var cycles:[cycle]{
+        get{
+            let N_Samples: Int = timeSignal.count
+            // for every frequency...
+            var tempCycles = [cycle]()
+            
+            for cycleNumber in 0..<N_Samples {
+                var realValue:Double = 0
+                var imaginaryValue: Double = 0
+                
+                // for every point in time...
+                for timeStep in 0..<N_Samples {
+                    // Spin the signal backwards_ at each frequency as radian/s,
+                    let rate = -1 * (2*Double.pi) * Double(cycleNumber)
+                    // How far around the circle have we gone at time= t?
+                    let time = Double(timeStep)/Double(N_Samples)
+                    let distance = rate * Double(time)
+                    // datapoint * e^(-i*2*pi*f) is complex, store each part
+                    let real_Part = timeSignal[timeStep] * cos(distance)
+                    let imaginary_part = timeSignal[timeStep] * sin(distance)
+                    // add this datapoints contribution
+                    realValue += real_Part
+                    imaginaryValue += imaginary_part
+                    
+                } //Stop for every timestep
+                
+                //Close to zero -> you are zero
+                if abs(realValue) < 1e-10 {realValue = 0}
+                if abs(imaginaryValue) < 1e-10 {imaginaryValue = 0}
+                
+                
+                //Average contribution at this frequency
+                realValue /= Double(N_Samples)
+                imaginaryValue /= Double(N_Samples)
+                
+                tempCycles.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
+                tempCycles[cycleNumber].realValue = realValue
+                tempCycles[cycleNumber].imaginaryValue = imaginaryValue
+                tempCycles[cycleNumber].frequency = Double(cycleNumber)
+            } // Stop for every frequency
+            return tempCycles
+        }
         
-        // for every point in time...
-        for timeStep in 0..<N_Samples {
-            
-            // Spin the signal backwards_ at each frequency as radian/s,
-            let rate = -1 * (2*Double.pi) * Double(cycleNumber)
-            
-            // How far around the circle have we gone at time= t?
-            let time = timeStep/N_Samples
-            let distance = rate * Double(time)
-            
-            // datapoint * e^(-i*2*pi*f) is complex, store each part
-            let real_Part = data[timeStep] * cos(distance)
-            let imaginary_part = data[timeStep] * sin(distance)
-            
-            // add this datapoints contribution
-            realValue += real_Part
-            imaginaryValue += imaginary_part
-            
-            
-        } //Stop for every timestep
+    }
+   
     
     
-    //Close to zero -> you are zero
-    if abs(realValue) < 1e-10 {realValue = 0}
-    if abs(imaginaryValue) < 1e-10 {imaginaryValue = 0}
     
     
-    //Average contribution at this frequency
-    realValue /= Double(N_Samples)
-    imaginaryValue /= Double(N_Samples)
-        
-        cycles.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
-        
-        cycles[cycleNumber].realValue = realValue
-        cycles[cycleNumber].imaginaryValue = imaginaryValue
-        cycles[cycleNumber].frequency = Double(cycleNumber)
-            
-        } // Stop for every frequency
     
-    
-    return cycles
-  }
+ 
     
 
 }

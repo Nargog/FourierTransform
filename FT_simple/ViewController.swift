@@ -22,16 +22,18 @@ class ViewController: UIViewController {
 
 
     @IBAction func btnStart(_ sender: Any) {
-        let indata: [Double] = [4,0,0,0]
-        lblIndata.text = ("\(indata)")
-      
         let myFTBox = Fourier()
         
-        let utdata = myFTBox.Transform(data: indata)
+        myFTBox.timeSignal = [25, -5, -5, -5, -5, -5]
+        
+        lblIndata.text = ("\(myFTBox.timeSignal)")
+      
+        
+        var utdata = myFTBox.cycles
         var utDataText = ""
         
         for index in 0..<utdata.count {
-            utDataText += "\(utdata[index].amplitude):\(utdata[index].phase)"
+            utDataText += "\(utdata[index].amplitude):\(utdata[index].phase) "
             print("\(utdata[index].amplitude):\(utdata[index].phase)")
         }
         
