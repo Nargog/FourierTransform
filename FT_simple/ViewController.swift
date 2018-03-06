@@ -24,12 +24,16 @@ class ViewController: UIViewController {
     @IBAction func btnStart(_ sender: Any) {
         let myFTBox = Fourier()
         
-        myFTBox.timeSignal = [25, -5, -5, -5, -5, -5]
+        myFTBox.timeSignal = [0, 1, 1, 1,2,3,4,5,6,0]
+        
+        
+        print(myFTBox.timeSignal)
+        
         
         lblIndata.text = ("\(myFTBox.timeSignal)")
       
         
-        var utdata = myFTBox.cycles
+        var utdata = myFTBox.transform
         var utDataText = ""
         
         for index in 0..<utdata.count {
@@ -39,6 +43,7 @@ class ViewController: UIViewController {
         
         lblUtdata.text = ("\(utDataText)")
         
+        myFTBox.invTransform()
         
     }
     
