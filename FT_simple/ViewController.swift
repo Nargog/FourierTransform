@@ -37,8 +37,9 @@ class ViewController: UIViewController {
         var utDataText = ""
         
         for index in 0..<utdata.count {
-            utDataText += "\(utdata[index].amplitude):\(utdata[index].phase) "
-            print("\(utdata[index].amplitude):\(utdata[index].phase)")
+            utDataText += "\(String(format: "%.1f", utdata[index].amplitude)):\(String(format: "%.0f", utdata[index].phase)) / "
+            print("\(String(format: "%.2f", utdata[index].amplitude))  :  \(String(format: "%.0f", utdata[index].phase)) / ")
+            
         }
         
         lblUtdata.text = ("\(utDataText)")

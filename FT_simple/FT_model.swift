@@ -16,11 +16,15 @@ struct cycle {
     //TODO: if amplitude or phase shifts -> change real/imag/freq
     var amplitude: Double{
         get{  return sqrt(realValue*realValue + imaginaryValue*imaginaryValue)}
-        set{}
+        set{
+            realValue = newValue * cos(phase*Double.pi/180)
+            imaginaryValue = newValue * sin(phase*Double.pi/180)
+        }
     }
     var phase: Double {
         get{ return atan2(imaginaryValue, realValue) * 180 / Double.pi}
-        set{ }//In degrees !!
+        set{ realValue = amplitude * cos(newValue*Double.pi/180)
+            imaginaryValue = amplitude * sin(newValue*Double.pi/180)}//In degrees !!
     }
     
     init(){
@@ -33,8 +37,8 @@ struct cycle {
     
     init(amplitude:Double, phase:Double) {
         self.init()
-        self.realValue = 0 //TODO calculate
-        self.imaginaryValue = 0 //TODO calculate
+        self.realValue = amplitude * cos(phase*Double.pi/180)
+        self.imaginaryValue = amplitude * sin(phase*Double.pi/180)
         self.frequency = 0
         self.amplitude = amplitude
         self.phase = phase
@@ -68,7 +72,7 @@ class Fourier {
                 
                 
                 //total = totalValue(position: pos)
-                print(totalRealPart)
+                print(String(format: "%.2f", totalRealPart))
                 tempTimeSignal.append(totalRealPart)
                 totalRealPart = 0
             }
@@ -137,15 +141,13 @@ class Fourier {
                 for frequence in newValue {
                     totalReal += frequence.amplitude * cos(pos * frequence.frequency + frequence.phase * Double.pi/180) //Just calculates the real part
                     //real += cycle.amp * Math.cos(x * cycle.freq + cycle.phase * Math.PI/180)
-                    totalImaginary += frequence.amplitude * sin(pos * frequence.frequency + frequence.phase * Double.pi/180) //Just calculates the real part
+                    totalImaginary += frequence.amplitude * sin(pos * frequence.frequency + frequence.phase * Double.pi/180)
                 }
                 //Close to zero -> you are zero
                 if abs(totalReal) < 1e-10 {totalReal = 0}
                 if abs(totalImaginary) < 1e-10 {totalImaginary = 0}
+
                 
-                
-                //total = totalValue(position: pos)
-                print(totalReal)
                 tempTimeSignal.append(totalReal)
                 totalReal = 0
             }
