@@ -8,10 +8,20 @@
 
 import Foundation
 
+struct timePoint {
+    var realValue = 0.0
+    var imaginaryValue = 0.0
+    var timeStep:Double = 0.0  // (timestep ?)
+    
+    //TODO: if amplitude or phase shifts -> change real/imag/freq
+    var amplitude: Double = 0.0
+}
+
+
 struct cycle {
     var realValue = 0.0
     var imaginaryValue = 0.0
-    var frequency:Double = 0.0  // (frequencystep ?)
+    var frequencyStep:Double = 0.0  // (frequencystep ?)
     
     //TODO: if amplitude or phase shifts -> change real/imag/freq
     var amplitude: Double{
@@ -30,7 +40,7 @@ struct cycle {
     init(){
         self.realValue = 0
         self.imaginaryValue = 0
-        self.frequency = 0
+        self.frequencyStep = 0
         self.amplitude = 0
         self.phase = 0
     }
@@ -39,7 +49,7 @@ struct cycle {
         self.init()
         self.realValue = amplitude * cos(phase*Double.pi/180)
         self.imaginaryValue = amplitude * sin(phase*Double.pi/180)
-        self.frequency = 0
+        self.frequencyStep = 0
         self.amplitude = amplitude
         self.phase = phase
     }
@@ -50,10 +60,10 @@ class Fourier {
     
  
     
-    var timeSignal = [Double]()
+    var timeSignal = [timePoint]()
     
     func invTransform() {
-            var tempTimeSignal = [Double]()
+            var tempTimeSignal = [timePoint]()
             
             let N_Samples: Int = transform.count
             
@@ -64,7 +74,7 @@ class Fourier {
                 pos = Double(cycleNumber)/Double(N_Samples)*2*Double.pi
                 
                 for frequence in transform {
-                totalRealPart += frequence.amplitude * cos(pos * frequence.frequency + frequence.phase * Double.pi/180)
+                totalRealPart += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
                 //real += cycle.amp * Math.cos(x * cycle.freq + cycle.phase * Math.PI/180)
                 }
                 //Close to zero -> you are zero
@@ -120,7 +130,7 @@ class Fourier {
                 tempCycles.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
                 tempCycles[cycleNumber].realValue = realValue
                 tempCycles[cycleNumber].imaginaryValue = imaginaryValue
-                tempCycles[cycleNumber].frequency = Double(cycleNumber)
+                tempCycles[cycleNumber].frequencyStep = Double(cycleNumber)
             } // Stop for every frequency
             return tempCycles
         }
@@ -139,9 +149,9 @@ class Fourier {
                 pos = Double(cycleNumber)/Double(N_Samples)*2*Double.pi
                 
                 for frequence in newValue {
-                    totalReal += frequence.amplitude * cos(pos * frequence.frequency + frequence.phase * Double.pi/180) //Just calculates the real part
+                    totalReal += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180) //Just calculates the real part
                     //real += cycle.amp * Math.cos(x * cycle.freq + cycle.phase * Math.PI/180)
-                    totalImaginary += frequence.amplitude * sin(pos * frequence.frequency + frequence.phase * Double.pi/180)
+                    totalImaginary += frequence.amplitude * sin(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
                 }
                 //Close to zero -> you are zero
                 if abs(totalReal) < 1e-10 {totalReal = 0}
