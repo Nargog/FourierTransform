@@ -67,24 +67,26 @@ class Fourier {
             
             let N_Samples: Int = transform.count
             
-            var totalRealPart: Double = 0
+            var totalPart = timePoint()
             var pos: Double = 0
             
             for cycleNumber in 0..<N_Samples {
                 pos = Double(cycleNumber)/Double(N_Samples)*2*Double.pi
                 
                 for frequence in transform {
-                totalRealPart += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
+                totalPart.realValue += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
+                totalPart.imaginaryValue += frequence.amplitude * sin(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
+                totalPart.timeStep = pos
                 //real += cycle.amp * Math.cos(x * cycle.freq + cycle.phase * Math.PI/180)
                 }
                 //Close to zero -> you are zero
-                if abs(totalRealPart) < 1e-10 {totalRealPart = 0}
+                if abs(totalPart.realValue) < 1e-10 {totalPart.realValue = 0}
                 
                 
                 //total = totalValue(position: pos)
-                print(String(format: "%.2f", totalRealPart))
-                tempTimeSignal.append(totalRealPart)
-                totalRealPart = 0
+                //print(String(format: "%.2f", totalRealPart))
+                tempTimeSignal.append(totalPart)
+                
             }
             timeSignal = tempTimeSignal
         }
@@ -110,8 +112,8 @@ class Fourier {
                     let time = Double(timeStep)/Double(N_Samples)
                     let distance = rate * Double(time)
                     // datapoint * e^(-i*2*pi*f) is complex, store each part
-                    let real_Part = timeSignal[timeStep] * cos(distance)
-                    let imaginary_part = timeSignal[timeStep] * sin(distance)
+                    let real_Part = timeSignal[timeStep].timeStep * cos(distance)
+                    let imaginary_part = timeSignal[timeStep].timeStep * sin(distance)
                     // add this datapoints contribution
                     realValue += real_Part
                     imaginaryValue += imaginary_part
@@ -136,7 +138,7 @@ class Fourier {
         }
        
         set{
-            var tempTimeSignal = [Double]()
+            var tempTimeSignal = [timePoint]()
             
             let N_Samples: Int = newValue.count
             
