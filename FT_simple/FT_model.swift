@@ -101,8 +101,10 @@ class Fourier {
             var tempCycles = [cycle]()
             
             for cycleNumber in 0..<N_Samples {
-                var realValue:Double = 0
-                var imaginaryValue: Double = 0
+               // var realValue:Double = 0
+                //var imaginaryValue: Double = 0
+                
+                var value = timePoint()
                 
                 // for every point in time...
                 for timeStep in 0..<N_Samples {
@@ -115,23 +117,23 @@ class Fourier {
                     let real_Part = timeSignal[timeStep].timeStep * cos(distance)
                     let imaginary_part = timeSignal[timeStep].timeStep * sin(distance)
                     // add this datapoints contribution
-                    realValue += real_Part
-                    imaginaryValue += imaginary_part
+                    value.realValue += real_Part
+                    value.imaginaryValue += imaginary_part
                     
                 } //Stop for every timestep
                 
                 //Close to zero -> you are zero
-                if abs(realValue) < 1e-10 {realValue = 0}
-                if abs(imaginaryValue) < 1e-10 {imaginaryValue = 0}
+                if abs(value.realValue) < 1e-10 {value.realValue = 0}
+                if abs(value.imaginaryValue) < 1e-10 {value.imaginaryValue = 0}
                 
                 
                 //Average contribution at this frequency
-                realValue /= Double(N_Samples)
-                imaginaryValue /= Double(N_Samples)
+                value.realValue /= Double(N_Samples)
+                value.imaginaryValue /= Double(N_Samples)
                 
                 tempCycles.append(cycle()) //lägg till en tom frekvenspunkt att fylla i
-                tempCycles[cycleNumber].realValue = realValue
-                tempCycles[cycleNumber].imaginaryValue = imaginaryValue
+                tempCycles[cycleNumber].realValue = value.realValue
+                tempCycles[cycleNumber].imaginaryValue = value.imaginaryValue
                 tempCycles[cycleNumber].frequencyStep = Double(cycleNumber)
             } // Stop for every frequency
             return tempCycles
@@ -142,26 +144,32 @@ class Fourier {
             
             let N_Samples: Int = newValue.count
             
-            var totalReal: Double = 0
-            var totalImaginary: Double = 0
+           // var totalReal: Double = 0
+            //var totalImaginary: Double = 0
+            
+            var totalSumValue = timePoint()
+            
+            //var total = timePoint()
             
             var pos: Double = 0
             
             for cycleNumber in 0..<N_Samples {
+                
+                
                 pos = Double(cycleNumber)/Double(N_Samples)*2*Double.pi
                 
                 for frequence in newValue {
-                    totalReal += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180) //Just calculates the real part
+                    totalSumValue.realValue += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180) //Just calculates the real part
                     //real += cycle.amp * Math.cos(x * cycle.freq + cycle.phase * Math.PI/180)
-                    totalImaginary += frequence.amplitude * sin(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
+                    totalSumValue.imaginaryValue += frequence.amplitude * sin(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
                 }
                 //Close to zero -> you are zero
-                if abs(totalReal) < 1e-10 {totalReal = 0}
-                if abs(totalImaginary) < 1e-10 {totalImaginary = 0}
+                if abs(totalSumValue.realValue) < 1e-10 {totalSumValue.realValue = 0}
+                if abs(totalSumValue.imaginaryValue) < 1e-10 {totalSumValue.imaginaryValue = 0}
 
                 
-                tempTimeSignal.append(totalReal)
-                totalReal = 0
+                tempTimeSignal.append(totalSumValue)
+                
             }
             timeSignal = tempTimeSignal
         }

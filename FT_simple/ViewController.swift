@@ -24,8 +24,13 @@ class ViewController: UIViewController {
     @IBAction func btnStart(_ sender: Any) {
         let myFTBox = Fourier()
         
-        myFTBox.timeSignal = [0, 1, 1, 1,2,3,4,5,6,0]
+        let timeSignal:[Double] = [0, 1, 1, 1,2,3,4,5,6,0]
         
+        for test in timeSignal {
+            var addValue = timePoint()
+            addValue.realValue = test
+            myFTBox.timeSignal.append(addValue)
+        }
         
         print(myFTBox.timeSignal)
         
