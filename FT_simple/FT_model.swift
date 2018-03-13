@@ -14,7 +14,13 @@ struct timePoint {
     var timeStep:Double = 0.0  // (timestep ?)
     
     //TODO: if amplitude or phase shifts -> change real/imag/freq
-    var amplitude: Double = 0.0
+    var amplitude: Double{
+        get{
+            return sqrt(realValue*realValue + imaginaryValue*imaginaryValue)
+        }
+    }
+    
+    //var phase:Double = 0.0
 }
 
 
@@ -67,11 +73,12 @@ class Fourier {
             
             let N_Samples: Int = transform.count
             
-            var totalPart = timePoint()
+        
             var pos: Double = 0
             
             for cycleNumber in 0..<N_Samples {
                 pos = Double(cycleNumber)/Double(N_Samples)*2*Double.pi
+                var totalPart = timePoint()
                 
                 for frequence in transform {
                 totalPart.realValue += frequence.amplitude * cos(pos * frequence.frequencyStep + frequence.phase * Double.pi/180)
@@ -84,7 +91,8 @@ class Fourier {
                 
                 
                 //total = totalValue(position: pos)
-                //print(String(format: "%.2f", totalRealPart))
+                print("inv transform - back")
+                print(String(format: "%.2f", totalPart.realValue))
                 tempTimeSignal.append(totalPart)
                 
             }
@@ -114,8 +122,8 @@ class Fourier {
                     let time = Double(timeStep)/Double(N_Samples)
                     let distance = rate * Double(time)
                     // datapoint * e^(-i*2*pi*f) is complex, store each part
-                    let real_Part = timeSignal[timeStep].timeStep * cos(distance)
-                    let imaginary_part = timeSignal[timeStep].timeStep * sin(distance)
+                    let real_Part:Double = timeSignal[timeStep].realValue * cos(distance)
+                    let imaginary_part:Double = timeSignal[timeStep].realValue * sin(distance)
                     // add this datapoints contribution
                     value.realValue += real_Part
                     value.imaginaryValue += imaginary_part

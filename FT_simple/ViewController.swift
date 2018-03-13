@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     @IBAction func btnStart(_ sender: Any) {
         let myFTBox = Fourier()
         
-        let timeSignal:[Double] = [0, 1, 1, 1,2,3,4,5,6,0]
+        let timeSignal:[Double] = [0, 1, 1, 1]
         
         for test in timeSignal {
             var addValue = timePoint()
@@ -32,8 +32,11 @@ class ViewController: UIViewController {
             myFTBox.timeSignal.append(addValue)
         }
         
-        print(myFTBox.timeSignal)
         
+        print("Timesignal in")
+        for ut in myFTBox.timeSignal{
+        print(ut.realValue)
+        }
         
         lblIndata.text = ("\(myFTBox.timeSignal)")
       
@@ -41,6 +44,7 @@ class ViewController: UIViewController {
         var utdata = myFTBox.transform
         var utDataText = ""
         
+        print("Transform")
         for index in 0..<utdata.count {
             utDataText += "\(String(format: "%.1f", utdata[index].amplitude)):\(String(format: "%.0f", utdata[index].phase)) / "
             print("\(String(format: "%.2f", utdata[index].amplitude))  :  \(String(format: "%.0f", utdata[index].phase)) / ")
