@@ -33,7 +33,9 @@ class ViewController: UIViewController {
         lblIndata.text = ("\(myFTBox.timeSignal)")
       
         
-        var utdata = myFTBox.transform
+        let utdata = myFTBox.transform
+        
+        // Bytte variabel till Let ovan 20200409
         var utDataText = ""
         
         for index in 0..<utdata.count {
